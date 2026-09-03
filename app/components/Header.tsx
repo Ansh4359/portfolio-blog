@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { DrawablyUnderline } from "drawably/react";
 
 const links = [
@@ -17,17 +18,20 @@ export default function Header() {
       </div>
       <p className="title">Product-focused Full Stack Developer</p>
       <nav className="contact-row">
-        {links.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            target={link.href.startsWith("mailto") ? undefined : "_blank"}
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", color: "inherit", padding: "0 8px" }}
-          >
-            <DrawablyUnderline>{link.label}</DrawablyUnderline>
-          </a>
-        ))}
+        {links.map((link) => {
+          const isExternal = link.href.startsWith("http");
+          return (
+            <Link
+              key={link.label}
+              href={link.href}
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+              style={{ textDecoration: "none", color: "inherit", padding: "0 8px" }}
+            >
+              <DrawablyUnderline>{link.label}</DrawablyUnderline>
+            </Link>
+          );
+        })}
       </nav>
     </header>
   );

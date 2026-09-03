@@ -2,8 +2,6 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
-
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://anshkushwaha.tech";
 
 export const metadata: Metadata = {

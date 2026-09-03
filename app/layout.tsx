@@ -42,6 +42,8 @@ export const metadata: Metadata = {
   },
 };
 
+import ThemeToggle from "./components/ThemeToggle";
+
 export default function RootLayout({
   children,
 }: {
@@ -50,6 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex items-start justify-center px-5 py-20 font-sans antialiased">
+        <ThemeToggle />
         {children}
       </body>
     </html>

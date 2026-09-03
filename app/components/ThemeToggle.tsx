@@ -25,7 +25,7 @@ export default function ThemeToggle() {
   if (!mounted) return null; // Prevent hydration mismatch
 
   return (
-    <div style={{ position: "absolute", top: 20, right: 20, display: "flex", alignItems: "center", gap: 12, zIndex: 100 }}>
+    <div style={{ position: "fixed", top: 20, right: 20, display: "flex", alignItems: "center", gap: 12, zIndex: 100 }}>
       <span style={{ fontSize: "0.85rem", color: "var(--pencil)" }}>
         {theme === "light" ? "☾ dark mode" : "☀ light mode"}
       </span>

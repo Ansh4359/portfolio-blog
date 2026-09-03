@@ -8,14 +8,12 @@ import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import ThemeToggle from "./components/ThemeToggle";
 import ScrollSpyNav from "./components/ScrollSpyNav";
 import { DrawablyDivider } from "drawably/react";
 
 export default function Home() {
   return (
     <div>
-      <ThemeToggle />
       <ScrollSpyNav />
     <div className="container" style={{ position: "relative" }}>
       

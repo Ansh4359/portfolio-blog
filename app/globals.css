@@ -104,8 +104,8 @@ body {
   display: flex;
 }
 
-.scroll-spy .drawably-host {
-  font-family: "Drawably Pen", cursive;
+.drawably-host {
+  font-family: inherit !important;
 }
 
 @media (max-width: 1100px) {
