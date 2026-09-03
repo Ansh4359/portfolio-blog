@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "cloudinary": "^2.11.0",
     "drawably": "^0.3.10",
     "gray-matter": "^4.0.3",
     "mongoose": "^9.9.4",

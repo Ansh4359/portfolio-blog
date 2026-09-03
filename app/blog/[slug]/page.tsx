@@ -57,6 +57,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
+  // Get suggested posts
+  const allPosts = await getAllPosts();
+  const suggestions = allPosts
+    .filter((p) => p.slug !== slug)
+    .slice(0, 2); // Show top 2 most recent other posts
+
   // JSON-LD structured data for rich Google results
   const jsonLd = {
     "@context": "https://schema.org",
@@ -118,7 +124,34 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       <footer className="blog-post-footer">
         <ShareButton title={post.title} slug={post.slug} />
-        <Link href="/blog" className="blog-back-link" style={{ marginTop: 24, display: "inline-block" }}>← back to all posts</Link>
+        
+        {suggestions.length > 0 && (
+          <div style={{ marginTop: 60 }}>
+            <h3 className="blog-title" style={{ fontSize: "1.8rem", marginBottom: 20 }}>read more</h3>
+            <div className="blog-list" style={{ marginTop: 0 }}>
+              {suggestions.map((sPost) => (
+                <Link key={sPost.slug} href={`/blog/${sPost.slug}`} className="blog-post-card">
+                  <div className="blog-post-card-inner">
+                    <div className="blog-post-meta">
+                      <span className="blog-post-date">
+                        {new Date(sPost.date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    <h2 className="blog-post-title" style={{ fontSize: "1.4rem" }}>{sPost.title}</h2>
+                    {sPost.excerpt && <p className="blog-post-excerpt" style={{ fontSize: "0.95rem" }}>{sPost.excerpt}</p>}
+                    <span className="blog-read-more" style={{ fontSize: "0.9rem" }}>read post →</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        <Link href="/blog" className="blog-back-link" style={{ marginTop: 40, display: "inline-block" }}>← back to all posts</Link>
       </footer>
     </div>
   );

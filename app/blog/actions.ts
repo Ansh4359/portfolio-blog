@@ -2,6 +2,13 @@
 
 import { createPost, deletePost } from "@/lib/blog";
 import { revalidatePath } from "next/cache";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function createBlogPost(formData: FormData) {
   const title = (formData.get("title") as string)?.trim();
@@ -59,4 +66,34 @@ export async function deleteBlogPost(formData: FormData) {
   } catch (error: any) {
     return { error: error.message || "Failed to delete post." };
   }
+}
+
+export async function uploadImageAction(formData: FormData) {
+  const file = formData.get("file") as File;
+  const password = formData.get("password") as string;
+
+  const adminPassword = process.env.BLOG_ADMIN_PASSWORD || "ansh2026";
+  if (password !== adminPassword) {
+    return { error: "Invalid admin password for upload." };
+  }
+
+  if (!file) {
+    return { error: "No image file provided." };
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  return new Promise<{ url?: string; error?: string }>((resolve) => {
+    cloudinary.uploader.upload_stream(
+      { folder: "portfolio_blog_images" },
+      (error, result) => {
+        if (error || !result) {
+          resolve({ error: error?.message || "Failed to upload to Cloudinary." });
+        } else {
+          resolve({ url: result.secure_url });
+        }
+      }
+    ).end(buffer);
+  });
 }

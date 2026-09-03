@@ -488,22 +488,26 @@ body {
   font-style: italic;
 }
 
-.blog-article img {
-  max-width: 100%;
-  border-radius: 8px;
-  margin: 16px 0;
-}
-
 .blog-article ul,
 .blog-article ol {
-  padding-left: 24px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+  padding-left: 28px;
 }
 
 .blog-article li {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
+.blog-article img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid var(--ink);
+  margin: 24px 0;
+  display: block;
+}
+
+/* ── Blog Admin ── */
 .blog-post-footer {
   margin-top: 48px;
   padding-top: 24px;
