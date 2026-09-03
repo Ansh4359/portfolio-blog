@@ -50,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark">
       <body className="min-h-screen flex items-start justify-center px-5 py-20 font-sans antialiased">
         <ThemeToggle />
         {children}

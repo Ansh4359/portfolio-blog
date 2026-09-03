@@ -4,12 +4,12 @@ import { DrawablyToggle } from "drawably/react";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");
-    const pref = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    const initialTheme = saved || pref;
+    // Default to dark mode if nothing is saved
+    const initialTheme = saved || "dark";
     setTheme(initialTheme);
     document.documentElement.setAttribute("data-theme", initialTheme);
     setMounted(true);

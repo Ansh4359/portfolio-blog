@@ -21,6 +21,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return { title: "Not Found" };
 
   const postUrl = `${SITE_URL}/blog/${post.slug}`;
+  
+  // Extract the first image from markdown content to use as link preview thumbnail
+  const imgMatch = post.content.match(/!\[.*?\]\((.*?)\)/);
+  const imageUrl = imgMatch ? imgMatch[1] : null;
 
   return {
     title: post.title,
@@ -30,18 +34,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       type: "article",
       title: post.title,
-      description: post.excerpt,
+      description: post.excerpt || `${post.content.slice(0, 160)}...`,
       url: postUrl,
       siteName: "Ansh Singh Kushwaha",
       publishedTime: post.date,
       authors: ["Ansh Singh Kushwaha"],
       tags: post.tags,
+      images: imageUrl ? [{ url: imageUrl }] : [],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      description: post.excerpt,
+      description: post.excerpt || `${post.content.slice(0, 160)}...`,
       creator: "@ansh4359",
+      images: imageUrl ? [imageUrl] : [],
     },
     alternates: {
       canonical: postUrl,
@@ -63,6 +69,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     .filter((p) => p.slug !== slug)
     .slice(0, 2); // Show top 2 most recent other posts
 
+  // Extract the first image from markdown content, if any
+  const imgMatch = post.content.match(/!\[.*?\]\((.*?)\)/);
+  const imageUrl = imgMatch ? imgMatch[1] : null;
+
   // JSON-LD structured data for rich Google results
   const jsonLd = {
     "@context": "https://schema.org",
@@ -71,6 +81,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     description: post.excerpt,
     datePublished: post.date,
     dateModified: post.date,
+    ...(imageUrl && { image: [imageUrl] }),
     author: {
       "@type": "Person",
       name: "Ansh Singh Kushwaha",
